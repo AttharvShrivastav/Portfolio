@@ -1,0 +1,63 @@
+@font-face {
+    font-family: Space_Grotesk;
+    src: url("../src/assets/fonts/SpaceGrotesk-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@import "tailwindcss";
+
+
+@theme{
+    --font-SpaceGrotesk: Space_Grotesk, "sans-serif";
+    --font-Poppins: Poppins, "sans-serif";
+}
+
+
+*::selection{
+    background: #FF5F00;
+    color: #fff;
+}
+
+
+@theme {
+  --color-page-bg: #C8C8C8;
+  --color-accent-orange: #FF5F00;
+
+  --color-editor-bg: #D1D1D1;      
+  --color-editor-border: #A0A0A0;  
+  --color-text-primary: #333333;   
+}
