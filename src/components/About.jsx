@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from "gsap/SplitText";
 import AboutToggle from "./AboutToggle";
+import FuzzyText from "./Animation/FuzzyText";
 
 gsap.registerPlugin([ScrollTrigger, SplitText]);
 
@@ -18,46 +19,50 @@ function About({ h1TargetRef }) {
   const split3Ref = useRef(null);
   const downloadRef = useRef(null)
 
+  useEffect(() => {
+  if (h1TargetRef.current) {
+    console.log("h1TargetRef position:", h1TargetRef.current.getBoundingClientRect());
+  }
+}, []);
 
-  useEffect(()=>{
-    const splitted = new SplitText([split1Ref.current,split2Ref.current,split3Ref.current], {
-    type: 'words'})
-      
+  useEffect(() => {
+    if (!split1Ref.current || !split2Ref.current || !split3Ref.current) return;
+
+    const splitted = new SplitText([split1Ref.current, split2Ref.current, split3Ref.current], {
+      type: "words",
+    });
+
     gsap.from(splitted.words, {
-      opacity:0,
+      opacity: 0,
       duration: 2,
       stagger: 0.05,
       scrollTrigger: {
+        id: "about-split-text",
         trigger: aboutRef.current,
         start: "top 40%",
-        // stagger: 0.1,
-        // end: "bottom center",
         toggleActions: "play none none reverse",
-      }
-    })
-    // return () => {
-    //   split.revert();
-    // };
-
-    
-  }, [])
-
-  useEffect(()=>{
-    gsap.to(aboutRef.current, {
-  opacity: 1,      // Start invisible
-  // x: -100,         // Slide in from left
-  duration: 1,     // Optional: add duration
-  scrollTrigger: {
-    trigger: aboutRef.current,
-    start: "top center",
-    end: "bottom bottom",
-    // markers: true, // Optional for debugging
-  },
-});
-
-  }, [])
+      },
+    });
+  }, []);
 
   useEffect(() => {
+    if (!aboutRef.current) return;
+
+    gsap.to(aboutRef.current, {
+      opacity: 1,
+      duration: 1,
+      scrollTrigger: {
+        id: "about-opacity",
+        trigger: aboutRef.current,
+        start: "top center",
+        end: "bottom bottom",
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!hiRef.current || !devRef.current) return;
+
     gsap.fromTo(
       [hiRef.current, devRef.current],
       { opacity: 0, x: -50 },
@@ -65,16 +70,17 @@ function About({ h1TargetRef }) {
         opacity: 1,
         x: 0,
         duration: 1,
-        // stagger: 0.2,
         ease: "power2.in",
         scrollTrigger: {
+          id: "about-hi-dev",
           trigger: h1TargetRef.current,
           start: "top center",
           toggleActions: "play none none reverse",
-        },
+        }
       }
     );
   }, []);
+
 
   useEffect(() => {
     gsap.to(
@@ -91,24 +97,23 @@ function About({ h1TargetRef }) {
     );
   }, []);
 
-  useEffect(()=>{
-    if (downloadHover){
-      gsap.to(downloadRef.current,{
-        color: '#FF5F00',
-        scale: 1.1,
-      })
+  useEffect(() => {
+    if (!downloadRef.current) return;
 
-      window.dispatchEvent(new Event('Download-button-hover-on'))
-    }
-    else{
+    if (downloadHover) {
+      gsap.to(downloadRef.current, {
+        color: "#FF5F00",
+        scale: 1.1,
+      });
+      window.dispatchEvent(new Event("Download-button-hover-on"));
+    } else {
       gsap.to(downloadRef.current, {
         color: "#000",
         scale: 1,
-      })
-      window.dispatchEvent(new Event('Download-button-hover-off'))
+      });
+      window.dispatchEvent(new Event("Download-button-hover-off"));
     }
-
-  }, [downloadHover])
+  }, [downloadHover]);
 
   return (
     <div className="h-[110vh] z-0 bg-[#C8C8C8] cursor-none  relative ">
@@ -118,16 +123,17 @@ function About({ h1TargetRef }) {
 
       <div
         ref={h1TargetRef}
-        className="h-[100px] z-99 w-[300px] absolute  top-38 left-18 "
+        className="h-[100px] z-99 w-[300px] absolute  top-38 left-16 "
       >
-        {/* This is where the h1 will land */}
+        {/* This is where the h1 will land */},
       </div>
 
       <h2 ref={devRef} className="text-6xl p-20 mt-2 tracking-tighter font-semibold opacity-0">
-        -- A Software Developer
+        A Software Developer
       </h2>
 
-      <div ref = {aboutRef} className="absolute  flex opacity-0 flex-col bottom-25 right-40 w-[40vw] min-h-[60vh] p-10">
+
+      <div ref={aboutRef} className="absolute  flex opacity-0 flex-col bottom-25 right-40 w-[40vw] min-h-[60vh] p-10">
         {/* <div className="w-full h-full p-4 ">
           <h3 className="text-3xl font-SpaceGrotesk font-600">The Engineer:</h3>
           <p ref = {split1Ref}>Rooted in computer science, I've spent years decoding the digital world—writing logic, building systems, and obsessing over clean code. Web development, 3D modeling, and game mechanics? Been there, built that.</p>
@@ -149,8 +155,9 @@ function About({ h1TargetRef }) {
           
         </div>
       </div> */}
-      <AboutToggle />
-    </div>
+        <AboutToggle />
+      </div>
+
     </div>
   );
 }
