@@ -4,20 +4,27 @@ import { gsap } from 'gsap';
 import eyes1 from '../assets/cursors/eyes1.png';
 import eyes2 from '../assets/cursors/eyes2.png';
 
+import handsApart from '../assets/images/hands-apart.png';
+import handsTouching from '../assets/images/hands-touching.png';
+
+
 const Cursor = () => {
   const cursorRef = useRef(null);
   const imageRef = useRef(null);
   const downloadIconRef = useRef(null);
 
+  
   const [isHovered, setIsHovered] = useState(false);
   const [eyeIndex, setEyeIndex] = useState(0); // Toggle between 0 and 1
   const [isTouchHover, setIsTouchHover] = useState(false);
   const [downloadHover, setDownloadHover] = useState(false);
+  const [cursorState, setCursorState] = useState("default");
+// possible values: "default", "hands-apart", "hands-touching"
+
 
   const eyes = [eyes1, eyes2]; 
 
 // -----------------Cursor movement------------------
-
   useEffect(() => {
     const moveCursor = (e) => {
       gsap.to(cursorRef.current, {
@@ -113,6 +120,40 @@ const Cursor = () => {
     window.addEventListener('cursor-touchHover-off', ()=> setIsTouchHover(false))
   }, [isTouchHover]);
 
+//   useEffect(() => {
+//   const cursor = cursorRef.current;
+
+//   if (cursorState === "hands-apart") {
+//     gsap.to(cursor, {
+//       width: 100,
+//       height: 100,
+//       backgroundColor: '#808080',
+//       opacity: 1,
+//       duration: 0.3,
+//       ease: 'power2.out',
+//     });
+//   } else if (cursorState === "hands-touching") {
+//     gsap.to(cursor, {
+//       width: 100,
+//       height: 100,
+//       backgroundColor: '#808080',
+//       opacity: 1,
+//       duration: 0.3,
+//       ease: 'power2.out',
+//     });
+//   } else {
+//     gsap.to(cursor, {
+//       width: 20,
+//       height: 20,
+//       backgroundColor: '#000',
+//       opacity: 1,
+//       duration: 0.3,
+//       ease: 'power2.inOut',
+//     });
+//   }
+// }, [cursorState]);
+
+
   // -------------- Download Button hover --------------
   useEffect(() => {
     if (downloadHover){
@@ -152,23 +193,55 @@ const Cursor = () => {
   }, [downloadHover]);
 
 
+  useEffect(() => {
+  const handleCursorChange = (e) => {
+    setCursorState(e.detail);
+  };
+
+  window.addEventListener("cursor-change", handleCursorChange);
+  return () => window.removeEventListener("cursor-change", handleCursorChange);
+}, []);
+
   return (
     <div
       ref={cursorRef}
       className="fixed top-0 left-0 w-5 h-5 bg-black rounded-full pointer-events-none z-[9999] transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center overflow-hidden"
     >
-      {downloadHover ? (
-        <i ref={downloadIconRef} className="ri-download-2-line scale-50 opacity-0"></i>
-        ) : (
+      {/* Show hands images for specific cursor states */}
+      {cursorState === 'hands-apart' && (
+        <img
+          src={handsApart}
+          alt="Hands Apart"
+          className="w-full h-full object-contain"
+          draggable={false}
+        />
+      )}
+      {cursorState === 'hands-touching' && (
+        <img
+          src={handsTouching}
+          alt="Hands Touching"
+          className="w-full h-full object-contain"
+          draggable={false}
+        />
+      )}
+
+      {/* Show download icon if hovering download */}
+      {downloadHover && (
+        <i
+          ref={downloadIconRef}
+          className="ri-download-2-line scale-50 opacity-0"
+        ></i>
+      )}
+
+      {/* Show eyes images only if cursorState is default */}
+      {cursorState === 'default' && !downloadHover && (
         <img
           ref={imageRef}
           src={eyes[eyeIndex]}
           alt="eyes"
           className="w-6 h-6 object-contain opacity-0 scale-50"
         />
-        )}
-      {/* <i></i> */}
-
+      )}
     </div>
   );
 };
