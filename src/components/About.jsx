@@ -74,15 +74,15 @@ function About({ h1TargetRef }) {
   return (
     <div
       id="about"
-      className="min-h-[110vh] z-0 bg-[#C8C8C8] cursor-none relative px-6 sm:px-12 md:px-20"
+      className="min-h-[110vh] z-0 flex flex-col bg-[#C8C8C8] cursor-none relative px-6 sm:px-12 md:px-20"
     >
+      <div className="">
       <h2
         ref={hiRef}
         className="text-4xl sm:text-5xl md:text-6xl font-SpaceGrotesk font-medium tracking-tighter pt-12 sm:pb-14 md:pb-32 pb-2 opacity-0"
       >
         Hi, I'm
       </h2>
-
       {/* Target position container, moved responsively */}
       <div
   ref={h1TargetRef}
@@ -93,8 +93,6 @@ function About({ h1TargetRef }) {
 >
   {/* h1 moves here */}
 </div>
-
-
       <div className="mt-24 sm:mt-8">
   <h2
     ref={devRef}
@@ -116,12 +114,13 @@ function About({ h1TargetRef }) {
     />
   </h2>
 </div>
+</div>
 
 
       {/* About panel — repositioned for responsiveness */}
       <div
         ref={aboutRef}
-        className="absolute flex opacity-0 bottom-8 sm:bottom-16 right-2 sm:right-20 w-[90vw] sm:w-[70vw] md:bottom-6 md:w-[70vw] min-h-[50vh] sm:min-h-[60vh] p-4 sm:p-6 md:p-10"
+        className="absolute justify-end flex opacity-0 bottom-8 sm:bottom-16 right-2 sm:right-20 w-[90vw] sm:w-[70vw] md:bottom-6 md:w-[70vw] min-h-[50vh] sm:min-h-[60vh] p-4 sm:p-6 md:p-10"
       >
         <AboutToggle />
       </div>
