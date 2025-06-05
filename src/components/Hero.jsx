@@ -4,8 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "remixicon/fonts/remixicon.css";
 import GetInTouchButton from "./GetInTouchButton";
 import GlitchButton from "./GlitchButton";
-import image1 from "../assets/images/ImagePortfolio"
-import image2 from "../assets/images/Capslock_static"
+import image1 from "../assets/images/ImagePortfolio.png"
+import image2 from "../assets/images/Capslock_static.png"
 
 gsap.registerPlugin(ScrollTrigger);
 
