@@ -129,7 +129,7 @@ export default function Footer() {
                     </h2>
 
                     {/* Navigation Links */}
-                    <nav className="flex justify-center gap-10 font-medium text-base">
+                    <nav className="flex justify-center hover:text-accent-orange gap-10 font-medium text-base">
                          {["About", "Projects", "Get in Touch"].map((label) => (
                               <a
                                    key={label}
