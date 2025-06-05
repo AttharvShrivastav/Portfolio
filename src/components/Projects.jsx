@@ -1,11 +1,12 @@
 import React from "react";
 import DecryptedText from "./Animation/DecryptedText";
 import ProjectCard from "./ProjectCard";
-import project1Img from "../assets/images/HTML-Markdown.png"
+import project1Img from "../assets/images/1.png"
+import project2Img from "../assets/images/2.png"
 
 function Projects() {
     return (
-        <div className="h-[160vh] cursor-none w-full bg-page-bg">
+        <div id="projects" className="min-h-screen cursor-none w-full py-[20vh] bg-page-bg">
           {/* <h1 className="text-7xl p-10">Projects</h1> */}
             <DecryptedText
                 text="PROJECTS"
@@ -21,7 +22,7 @@ function Projects() {
                 {/* First Row */}
                 <div className="flex w-full h-full flex-row">
                     <ProjectCard bgColor="bg-red-100" projectImage={project1Img} text1="Card 1 - A" text2="Card 1 - B" projectName="" />
-                    <ProjectCard bgColor="bg-red-200" text1="Card 2 - A" text2="Card 2 - B" projectName="Furniture Ecommerce App"/>
+                    <ProjectCard bgColor="bg-red-200" projectImage={project2Img} text1="Card 2 - A" text2="Card 2 - B" projectName=" "/>
                 </div>
 
                 {/* Second Row */}

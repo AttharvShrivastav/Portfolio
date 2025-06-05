@@ -35,14 +35,14 @@ function ProjectCard({ bgColor = "bg-red-100", projectImage ,text1 = "Text One",
             onMouseLeave={() => setIsHovered(false)}
             className={`${bgColor} w-full relative h-[80vh] overflow-hidden flex items-center justify-around`}
         >
-            <img src={projectImage} className="w-full h-full object-cover z-0" />
+            <img src={projectImage} className="w-full h-full object-fit z-0" />
             <h1 ref={projectHeadingRef} className="absolute text-4xl font-SpaceGrotesk">{projectName}</h1>
 
             <div className="overlay-container gap-10 absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 flex items-center justify-center">
                 <p ref={text1Ref} className="bg-amber-500 z-10 opacity-0"> {text1} </p>
                 <div
                     ref={imageRef}
-                    className="bg-amber-100 h-[0] w-[400px] z-10 content-fit"
+                    className="bg-amber-100 h-[0] w-[400px] z-10 "
                 ></div>
                 <p ref={text2Ref} className="bg-amber-500 z-10 opacity-0"> {text2} </p>
             </div>

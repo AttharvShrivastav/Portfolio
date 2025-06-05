@@ -38,7 +38,6 @@ function About({ h1TargetRef }) {
     return () => ctx.revert();
   }, [h1TargetRef]);
 
-  // Fade in about container
   useEffect(() => {
     if (!aboutRef.current) return;
 
@@ -58,7 +57,6 @@ function About({ h1TargetRef }) {
     return () => ctx.revert();
   }, []);
 
-  // Animate Download Resume hover
   useEffect(() => {
     if (!downloadRef.current) return;
 
@@ -74,27 +72,41 @@ function About({ h1TargetRef }) {
   }, [downloadHover]);
 
   return (
-    <div className="h-[110vh] z-0 bg-[#C8C8C8] cursor-none relative">
+    <div
+      id="about"
+      className="min-h-[110vh] z-0 bg-[#C8C8C8] cursor-none relative px-6 sm:px-12 md:px-20"
+    >
       <h2
         ref={hiRef}
-        className="text-6xl font-SpaceGrotesk font-medium tracking-tighter p-20 pb-2 opacity-0"
+        className="text-4xl sm:text-5xl md:text-6xl font-SpaceGrotesk font-medium tracking-tighter pt-12 sm:pb-14 md:pb-32 pb-2 opacity-0"
       >
         Hi, I'm
       </h2>
 
+      {/* Target position container, moved responsively */}
       <div
-        ref={h1TargetRef}
-        className="h-[100px] z-1 w-[300px] absolute top-38 left-16"
-      >
-        {/* This is where the h1 will land */}
-      </div>
+  ref={h1TargetRef}
+  className="absolute left-[1rem] sm:left-[4rem] z-10
+             top-[7.5rem] sm:top-[10rem]
+             w-[80vw] sm:w-[300px]
+             h-[100px]"
+>
+  {/* h1 moves here */}
+</div>
 
 
-      <div className="p-20 mt-2">
-  <h2 ref={devRef} className="text-6xl tracking-tighter font-medium text-black">
+      <div className="mt-24 sm:mt-8">
+  <h2
+    ref={devRef}
+    className="mt-4 sm:mt-6 text-3xl sm:text-5xl md:text-6xl tracking-tighter font-medium text-black"
+  >
     <TypewriterComponent
       options={{
-        strings: ["A Software Developer", "A Frontend Developer", "A Technology Enthusiast"],
+        strings: [
+          "A Software Developer",
+          "A Frontend Developer",
+          "A Technology Enthusiast",
+        ],
         autoStart: true,
         loop: true,
         cursor: "_",
@@ -105,22 +117,12 @@ function About({ h1TargetRef }) {
   </h2>
 </div>
 
+
+      {/* About panel — repositioned for responsiveness */}
       <div
         ref={aboutRef}
-        className="absolute flex flex-col opacity-0 bottom-25 right-40 w-[40vw] min-h-[60vh] p-10"
+        className="absolute flex flex-col opacity-0 bottom-8 sm:bottom-16 right-4 sm:right-20 w-[90vw] sm:w-[70vw] md:bottom-6 md:w-[70vw] min-h-[50vh] sm:min-h-[60vh] p-4 sm:p-6 md:p-10"
       >
-        {/* <div className="w-full flex gap-10 p-4 h-full">
-          <h3
-            className="text-3xl font-Poppins font-600"
-            ref={downloadRef}
-            onMouseEnter={() => setDownloadHover(true)}
-            onMouseLeave={() => setDownloadHover(false)}
-          >
-            Download Resume
-          </h3>
-        </div> */}
-
-        {/* Optional toggle section */}
         <AboutToggle />
       </div>
     </div>

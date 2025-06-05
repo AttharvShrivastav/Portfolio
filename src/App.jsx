@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Overlay from './components/Overlay';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Hero h1TargetRef={h1TargetRef} />
       <About h1TargetRef={h1TargetRef} />
       <Projects />
+      <Footer />
     </div>
   );
 }

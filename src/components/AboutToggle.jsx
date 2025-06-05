@@ -154,7 +154,8 @@ export default function AboutToggle() {
     }, [downloadHover]);
 
     return (
-        <div className="relative w-full max-w-2xl mx-auto p-8  rounded-xl bg-[#c8c8c8] select-none h-[550px]">
+        <div className="relative w-full max-w-2xl mx-auto p-8 rounded-xl bg-[#c8c8c8] select-none h-[550px] flex flex-col">
+
 
             {/* Toggle Button */}
             <div className="flex justify-end mb-4">
@@ -243,16 +244,20 @@ export default function AboutToggle() {
                         I live at the intersection of art and algorithms—where precision meets play. And that's where I do my best work: turning technical know-how into creative magic.
                     </p>
                 </div>
-                <div className="w-full flex gap-10 p-4 h-full">
-                    <h3
-                        className="text-3xl font-Poppins cursor-pointer"
-                        ref={downloadRef}
-                        onMouseEnter={() => setDownloadHover(true)}
-                        onMouseLeave={() => setDownloadHover(false)}
-                    >
-                        Download Resume
-                    </h3>
-                </div>
+                <div className="w-full mt-auto px-4 py-6">
+  <div className="border-t border-gray-400 pt-4 flex justify-between items-center">
+    <h3 className="text-xl sm:text-2xl font-Poppins">Let’s talk work?</h3>
+    <button
+      ref={downloadRef}
+      onMouseEnter={() => setDownloadHover(true)}
+      onMouseLeave={() => setDownloadHover(false)}
+      className="text-xl sm:text-2xl font-Poppins cursor-pointer transition-transform duration-300"
+    >
+      Download Resume
+    </button>
+  </div>
+</div>
+
             </div>
         </div>
     );

@@ -8,337 +8,463 @@ import GlitchButton from "./GlitchButton";
 gsap.registerPlugin(ScrollTrigger);
 
 function Hero({ h1TargetRef }) {
-     const [isHovered, setIsHovered] = useState(false);
-     const [isHoveredTouch, setIsHoveredTouch] = useState(false);
-     const [disableHover, setDisableHover] = useState(false);
-     const [showContact, setShowContact] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredTouch, setIsHoveredTouch] = useState(false);
+  const [disableHover, setDisableHover] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
-     const contactOverlayRef = useRef(null);
-     const imgRef = useRef(null);
-     const img2Ref = useRef(null);
-     const getInTouchRef = useRef(null);
-     const h1Ref = useRef(null);
-     const scrollContainerRef = useRef(null);
-     const bottomBarRef = useRef(null);
-     const getInTouchh3Ref = useRef(null);
+  const contactOverlayRef = useRef(null);
+  const imgRef = useRef(null);
+  const img2Ref = useRef(null);
+  const getInTouchRef = useRef(null);
+  const h1Ref = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const bottomBarRef = useRef(null);
+  const getInTouchh3Ref = useRef(null);
 
-     useEffect(() => {
-          if (!imgRef.current || !img2Ref.current) return;
+  const titleRef = useRef(null);
+  const paragraphRef = useRef(null);
+  const socialLinksRef = useRef(null);
 
-          gsap.set(imgRef.current, { opacity: 0, scale: 0 });
-          gsap.set(img2Ref.current, { opacity: 0, scale: 0 });
+  // For form fields
+  const formFieldsRef = useRef([]);
+  formFieldsRef.current = []; // reset on every render
 
-          if (isHovered) {
-               gsap.to(imgRef.current, {
-                    rotate: -20,
-                    x: -100,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.8,
-                    ease: "power2.out",
-               });
-               gsap.to(img2Ref.current, {
-                    rotate: 10,
-                    x: 100,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.8,
-                    ease: "power2.out",
-               });
-               window.dispatchEvent(new Event("cursor-hover-on"));
-          } else {
-               gsap.to(imgRef.current, {
-                    opacity: 0,
-                    rotate: 0,
-                    scale: 0.8,
-                    x: 100,
-                    duration: 0.5,
-                    ease: "power3.in",
-                    overwrite: "auto",
-               });
-               gsap.to(img2Ref.current, {
-                    opacity: 0,
-                    rotate: 0,
-                    scale: 0.8,
-                    x: 0,
-                    duration: 0.5,
-                    ease: "power3.in",
-                    overwrite: "auto",
-               });
-               window.dispatchEvent(new Event("cursor-hover-off"));
-          }
-     }, [isHovered]);
+  const addToRefs = (el) => {
+    if (el && !formFieldsRef.current.includes(el)) {
+      formFieldsRef.current.push(el);
+    }
+  };
 
-     useEffect(() => {
-          if (!getInTouchRef.current) return;
+  // Refs to all animating inputs
+  const focusAnimRefs = useRef([]);
+  focusAnimRefs.current = [];
 
-          if (isHoveredTouch) {
-               gsap.to(getInTouchRef.current, {
-                    scale: 1.1,
-                    backgroundColor: "#FF5F00",
-                    duration: 0.3,
-                    ease: "power2.out",
-               });
-               gsap.to(getInTouchh3Ref.current,{
-                backgroundColor: "#FF5F00",
-                duration: 0.3,
-                ease: "power2.out",
-               })
-               window.dispatchEvent(new Event("cursor-touchHover-on"));
-          } else {
-               gsap.to(getInTouchRef.current, {
-                    scale: 1,
-                    backgroundColor: "#C8C8C8",
-                    duration: 0.3,
-                    ease: "power2.inOut",
-               });
-               gsap.to(getInTouchh3Ref.current,{
-                backgroundColor: "#C8C8C8",
-                duration: 0.3,
-                ease: "power2.inOut",
-               })
-               window.dispatchEvent(new Event("cursor-touchHover-off"));
-          }
-     }, [isHoveredTouch]);
+  const addFocusRef = (el) => {
+    if (el && !focusAnimRefs.current.includes(el)) {
+      focusAnimRefs.current.push(el);
+    }
+  };
 
-     useEffect(() => {
-          if (!bottomBarRef.current) return;
+  useEffect(() => {
+    if (!imgRef.current || !img2Ref.current) return;
 
-          gsap.to(bottomBarRef.current, {
-               opacity: 0,
-               y: 300,
-               scrollTrigger: {
-                    trigger: scrollContainerRef.current,
-                    start: "top top",
-                    end: "center center",
-                    scrub: true,
-               },
-          });
-     }, []);
+    gsap.set(imgRef.current, { opacity: 0, scale: 0 });
+    gsap.set(img2Ref.current, { opacity: 0, scale: 0 });
 
-     useEffect(() => {
-          if (
-               !h1Ref.current ||
-               !h1TargetRef?.current ||
-               !scrollContainerRef.current
-          )
-               return;
+    if (isHovered) {
+      gsap.to(imgRef.current, {
+        rotate: -20,
+        x: -100,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+      gsap.to(img2Ref.current, {
+        rotate: 10,
+        x: 100,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+      window.dispatchEvent(new Event("cursor-hover-on"));
+    } else {
+      gsap.to(imgRef.current, {
+        opacity: 0,
+        rotate: 0,
+        scale: 0.8,
+        x: 100,
+        duration: 0.5,
+        ease: "power3.in",
+        overwrite: "auto",
+      });
+      gsap.to(img2Ref.current, {
+        opacity: 0,
+        rotate: 0,
+        scale: 0.8,
+        x: 0,
+        duration: 0.5,
+        ease: "power3.in",
+        overwrite: "auto",
+      });
+      window.dispatchEvent(new Event("cursor-hover-off"));
+    }
+  }, [isHovered]);
 
-          const updateBoundsAndAnimate = () => {
-               const h1El = h1Ref.current;
-               const targetEl = h1TargetRef.current;
+  useEffect(() => {
+    if (!getInTouchRef.current) return;
 
-               if (!h1El || !targetEl) {
-                    console.log("Nothing Found boss");
-                    return;
-               }
+    if (isHoveredTouch) {
+      gsap.to(getInTouchRef.current, {
+        scale: 1.1,
+        backgroundColor: "#FF5F00",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      gsap.to(getInTouchh3Ref.current, {
+        backgroundColor: "#FF5F00",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      window.dispatchEvent(new Event("cursor-touchHover-on"));
+    } else {
+      gsap.to(getInTouchRef.current, {
+        scale: 1,
+        backgroundColor: "#C8C8C8",
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+      gsap.to(getInTouchh3Ref.current, {
+        backgroundColor: "#C8C8C8",
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+      window.dispatchEvent(new Event("cursor-touchHover-off"));
+    }
+  }, [isHoveredTouch]);
 
-               const targetBounds = targetEl.getBoundingClientRect();
-               const h1Bounds = h1El.getBoundingClientRect();
-               const scrollY = window.scrollY || window.pageYOffset;
-               const scrollX = window.scrollX || window.pageXOffset;
+  useEffect(() => {
+    if (!bottomBarRef.current) return;
 
-               const x = targetBounds.left + scrollX - h1Bounds.left - scrollX;
-               const y = targetBounds.top + scrollY - h1Bounds.top - scrollY;
+    gsap.to(bottomBarRef.current, {
+      opacity: 0,
+      y: 300,
+      scrollTrigger: {
+        trigger: scrollContainerRef.current,
+        start: "top top",
+        end: "center center",
+        scrub: true,
+      },
+    });
+  }, []);
 
-               gsap.to(h1El, {
-                    x,
-                    y,
-                    scale: 0.52,
-                    fontWeight: 500,
-                    transformOrigin: "top left",
-                    scrollTrigger: {
-                         id: "h1-move",
-                         trigger: scrollContainerRef.current,
-                         start: "top top",
-                         end: "bottom center",
-                         scrub: true,
-                         invalidateOnRefresh: true,
-                    },
-               });
-          };
+  useEffect(() => {
+    if (!h1Ref.current || !h1TargetRef?.current || !scrollContainerRef.current)
+      return;
 
-          const handleRefresh = () => {
-               updateBoundsAndAnimate();
-               ScrollTrigger.refresh();
-          };
+    const updateBoundsAndAnimate = () => {
+      const h1El = h1Ref.current;
+      const targetEl = h1TargetRef.current;
 
-          setTimeout(handleRefresh, 500);
-          window.addEventListener("resize", handleRefresh);
+      if (!h1El || !targetEl) {
+        console.log("Nothing Found boss");
+        return;
+      }
 
-          return () => {
-               window.removeEventListener("resize", handleRefresh);
-               ScrollTrigger.getById("h1-move")?.kill();
-          };
-     }, [h1TargetRef]);
+      const targetBounds = targetEl.getBoundingClientRect();
+      const h1Bounds = h1El.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
 
-     useEffect(() => {
-          if (!scrollContainerRef.current) return;
+      const x = targetBounds.left + scrollX - h1Bounds.left - scrollX;
+      const y = targetBounds.top + scrollY - h1Bounds.top - scrollY;
 
-          const trigger = ScrollTrigger.create({
-               trigger: scrollContainerRef.current,
-               start: "top top",
-               end: "bottom center",
-               scrub: true,
-               onUpdate: (self) => {
-                    setDisableHover(self.progress > 0.2);
-                    setIsHovered(false);
-               },
-          });
+      gsap.to(h1El, {
+        x,
+        y,
+        scale: 0.52,
+        fontWeight: 500,
+        transformOrigin: "top left",
+        scrollTrigger: {
+          id: "h1-move",
+          trigger: scrollContainerRef.current,
+          start: "top top",
+          end: "bottom center",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    };
 
-          return () => {
-               trigger.kill();
-          };
-     }, []);
-     const handleClick = () => {
-          // Your custom logic here
-          alert("Signal sent!");
-     };
+    const handleRefresh = () => {
+      updateBoundsAndAnimate();
+      ScrollTrigger.refresh();
+    };
 
-    
+    setTimeout(handleRefresh, 500);
+    window.addEventListener("resize", handleRefresh);
 
+    return () => {
+      window.removeEventListener("resize", handleRefresh);
+      ScrollTrigger.getById("h1-move")?.kill();
+    };
+  }, [h1TargetRef]);
 
-     
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
 
-     return (
-          <>
-               {/* Main Hero Section */}
-               <div
-                    ref={scrollContainerRef}
-                    className="h-[120vh] bg-[#C8C8C8]"
-               >
-                    <div className="flex flex-col cursor-none relative justify-center items-center h-[90vh] w-full bg-[#C8C8C8]">
-                         <h1
-                              ref={h1Ref}
-                              className="text-9xl z-1 tracking-tighter -translate-y-1/2 text-[#1c1c1c] font-semibold font-['Poppins'] cursor-none"
-                              onMouseEnter={() =>
-                                   !disableHover && setIsHovered(true)
-                              }
-                              onMouseLeave={() =>
-                                   !disableHover && setIsHovered(false)
-                              }
-                         >
-                              Attharv Shrivastav
-                         </h1>
+    const trigger = ScrollTrigger.create({
+      trigger: scrollContainerRef.current,
+      start: "top top",
+      end: "bottom center",
+      scrub: true,
+      onUpdate: (self) => {
+        setDisableHover(self.progress > 0.2);
+        setIsHovered(false);
+      },
+    });
 
-                         {/* Hover Images */}
-                         <div
-                              ref={imgRef}
-                              className="absolute top-1/2 right-0 translate-y-1/2 rotate-4 -translate-x-1/3 h-[150px] w-[100px] overflow-hidden"
-                         >
-                              <img
-                                   src="../src/assets/images/Capslock_static.png"
-                                   alt="Appearing Image"
-                                   className="object-cover h-full w-full rounded-2xl"
-                              />
-                         </div>
-                         <div
-                              ref={img2Ref}
-                              className="absolute top-0 left-0 translate-y-1/3 rotate-4 -translate-x-1/3 h-[250px] w-[170px] overflow-hidden"
-                         >
-                              <img
-                                   src="../src/assets/images/ImagePortfolio.png"
-                                   alt="Appearing Image"
-                                   className="object-cover h-full w-full rounded-2xl"
-                              />
-                         </div>
+    return () => {
+      trigger.kill();
+    };
 
-                         {/* Bottom Bar */}
-                         <div
-                              ref={bottomBarRef}
-                              className="absolute items-center flex justify-between p-10 bottom-0 w-full h-[20vh]"
-                         >
-                              <div className="flex">
-                                   <span className="text-3xl">
-                                        <i className="ri-arrow-right-down-line"></i>
-                                   </span>
-                                   <h3 className="text-2xl">Scroll down</h3>
-                              </div>
-                              <div className="flex justify-center mr-10 flex-col items-center">
-                                   <h2 className="text-3xl font-Poppins">
-                                        A software Developer
-                                   </h2>
-                                   <h2 className="text-3xl font-Poppins">
-                                        Based in Indore
-                                   </h2>
-                              </div>
-                              <div
-                                   className="text-2xl cursor-none border-2 rounded-3xl p-4 bg-transparent flex items-center gap-4 "
-                                   ref={getInTouchRef}
-                                   onMouseEnter={() => setIsHoveredTouch(true)}
-                                   onMouseLeave={() => setIsHoveredTouch(false)}
-                                   onClick={() => setShowContact(true)}
-                                   style={{ width: "fit-content" }}
-                              >
-                                   {/* <GetInTouchButton hovered={isHoveredTouch} /> */}
-                                   <h3 ref={getInTouchh3Ref} className="ml-4 select-none">
-                                        Let's Get in Touch
-                                   </h3>
-                              </div>
-                         </div>
-                    </div>
-                    {showContact && (
-                         <div
-                              ref={contactOverlayRef}
-                              className="absolute top-0 right-0 h-full w-full md:w-[50vw] bg-[#1a1a1ae0] backdrop-blur-sm text-white p-10 z-50"
-                         >
-                              <div className="flex justify-between items-center mb-6">
-                                   <h2 className="text-3xl font-normal font-SpaceGrotesk text-white flex items-center">
-                                        <i className="ri-hand-heart-line mr-2"></i>{" "}
-                                        Let's Connect
-                                   </h2>
-                                   <button
-                                        onClick={() => setShowContact(false)}
-                                   >
-                                        <i className="ri-close-line text-3xl text-white"></i>
-                                   </button>
-                              </div>
-                              <p className="text-lg mb-4">
-                                   Whether you want to collaborate, chat about
-                                   tech, or just say hi — I'm all ears.
-                              </p>
-                              <form className="flex flex-col gap-4">
-                                   <input
-                                        className="p-3 bg-transparent border-b border-white outline-none focus:border-[#FF5F00]"
-                                        placeholder="Name"
-                                   />
-                                   <input
-                                        type="email"
-                                        className="p-3 bg-transparent border-b border-white outline-none focus:border-[#FF5F00]"
-                                        placeholder="Email"
-                                   />
-                                   <textarea
-                                        className="p-3 bg-transparent border-b border-white outline-none focus:border-[#FF5F00]"
-                                        placeholder="Message"
-                                        rows="4"
-                                   />
-                                   <span className="text-sm text-gray-400">
-                                        No spam, just genuine vibes.
-                                   </span>
+// ::contentReference[oaicite:4]{index=4}
+ 
+  }, []);
 
-                                   <GlitchButton onClick={handleClick} />
-                              </form>
-                              <div className="mt-6 flex gap-4 text-2xl">
-                                   <a
-                                        href="mailto:shrivastav.atharv21@gmail.com"
-                                        title="Ping me here"
-                                   >
-                                        <i className="ri-mail-line"></i>
-                                   </a>
-                                   <a
-                                        href="https://linkedin.com/in/attharv-shrivastav"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        title="Slide into my LinkedIn"
-                                   >
-                                        <i className="ri-linkedin-box-line"></i>
-                                   </a>
-                              </div>
-                         </div>
-                    )}
-               </div>
-          </>
-     );
+  const handleClick = (e) => {
+    e.preventDefault();
+    alert("Signal sent!");
+  };
+
+  useEffect(() => {
+    const overlay = contactOverlayRef.current;
+
+    if (showContact && overlay) {
+      gsap.fromTo(
+        overlay,
+        {
+          opacity: 0,
+          scale: 0.95,
+          clipPath: "inset(0% 0% 100% 0%)",
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 0.8,
+          ease: "power2.out",
+        }
+      );
+    }
+  }, [showContact]);
+
+  const handleCloseOverlay = () => {
+    const overlay = contactOverlayRef.current;
+    if (!overlay) return setShowContact(false);
+
+    gsap.to(overlay, {
+      opacity: 0,
+      scale: 0.95,
+      clipPath: "inset(0% 0% 100% 0%)",
+      duration: 0.6,
+      ease: "power2.in",
+      onComplete: () => setShowContact(false),
+    });
+  };
+
+  useEffect(() => {
+    if (!showContact) return;
+
+    const tl = gsap.timeline({ delay: 0.2 });
+
+    tl.fromTo(
+      titleRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    )
+      .fromTo(
+        paragraphRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+        "-=0.4"
+      )
+      .fromTo(
+        formFieldsRef.current,
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.8,
+          transformOrigin: "center center",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.12,
+        },
+        "-=0.4"
+      )
+      .fromTo(
+        socialLinksRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        "-=0.5"
+      );
+
+    return () => tl.kill();
+  }, [showContact]);
+
+  const handleFocus = (index) => {
+    const el = focusAnimRefs.current[index];
+    if (!el) return;
+
+    animateUnderlineColor(el, true);
+    gsap.to(el, {
+      scale: 1.05,
+      fontSize: "1.125rem",
+      letterSpacing: "0.05em",
+      color: "#FF5F00",
+      duration: 0.35,
+      ease: "power2.out",
+    });
+  };
+
+  const handleBlur = (index) => {
+    const el = focusAnimRefs.current[index];
+    if (!el) return;
+
+    animateUnderlineColor(el, false);
+    gsap.to(el, {
+      scale: 1,
+      fontSize: "1rem",
+      letterSpacing: "normal",
+      color: "#ffffff",
+      duration: 0.35,
+      ease: "power2.inOut",
+    });
+  };
+
+  const animateUnderlineColor = (el, focused) => {
+    if (!el) return;
+    gsap.to(el, {
+      borderColor: focused ? "#FF5F00" : "#FFFFFF",
+      duration: 0.4,
+      ease: "power2.out",
+    });
+  };
+
+  return (
+    <div ref={scrollContainerRef} id="home" className="h-[120vh] bg-[#C8C8C8] relative">
+      {/* Hero Section */}
+      <div className="flex flex-col justify-center items-center h-[90vh] w-full relative px-4 md:px-12">
+        <h1
+          ref={h1Ref}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl z-1 font-semibold font-['Poppins'] text-[#1c1c1c] tracking-tighter text-center cursor-none"
+          onMouseEnter={() => !disableHover && setIsHovered(true)}
+          onMouseLeave={() => !disableHover && setIsHovered(false)}
+        >
+          Attharv Shrivastav
+        </h1>
+
+        {/* Hover Images */}
+        <div
+          ref={imgRef}
+          className="absolute top-1/2 right-0 translate-y-1/2 h-[100px] sm:h-[150px] w-[80px] sm:w-[100px] overflow-hidden"
+        >
+          <img
+            src="../src/assets/images/Capslock_static.png"
+            alt="Img1"
+            className="h-full w-full object-cover rounded-2xl"
+          />
+        </div>
+        <div
+          ref={img2Ref}
+          className="absolute top-0 left-0 translate-y-1/3 h-[150px] sm:h-[250px] w-[120px] sm:w-[170px] overflow-hidden"
+        >
+          <img
+            src="../src/assets/images/ImagePortfolio.png"
+            alt="Img2"
+            className="h-full w-full object-cover rounded-2xl"
+          />
+        </div>
+
+        {/* Bottom Bar */}
+        <div
+          ref={bottomBarRef}
+          className="absolute bottom-0 w-full px-6 py-8 md:py-10 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="flex items-center gap-2 text-xl md:text-2xl">
+            <i className="ri-arrow-right-down-line" />
+            <span>Scroll down</span>
+          </div>
+
+          <div className="text-center md:text-left">
+            <h2 className="text-lg md:text-2xl">A Software Developer</h2>
+            <h2 className="text-lg md:text-2xl">Based in Indore</h2>
+          </div>
+
+          <div
+            ref={getInTouchRef}
+            onMouseEnter={() => setIsHoveredTouch(true)}
+            onMouseLeave={() => setIsHoveredTouch(false)}
+            onClick={() => setShowContact(true)}
+            className="border-2 rounded-3xl px-4 py-2 text-base md:text-xl cursor-pointer"
+          >
+            <h3 ref={getInTouchh3Ref}>Let's Get in Touch</h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Overlay */}
+      {showContact && (
+        <div
+          ref={contactOverlayRef}
+          className="absolute top-0 right-0 h-full w-full md:w-[60vw] lg:w-[50vw] bg-[#1a1a1a] backdrop-blur-sm text-white p-6 md:p-10 z-50 overflow-y-auto"
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h2 ref={titleRef} className="text-2xl md:text-3xl font-SpaceGrotesk">
+              Let's Connect
+            </h2>
+            <button onClick={handleCloseOverlay}>
+              <i className="ri-close-line text-3xl text-white" />
+            </button>
+          </div>
+
+          <p ref={paragraphRef} className="text-base md:text-lg mb-4">
+            Whether you want to collaborate, chat about tech, or just say hi — I'm all ears.
+          </p>
+
+          <form className="flex flex-col gap-4">
+            <input
+              ref={addFocusRef}
+              onFocus={() => handleFocus(0)}
+              onBlur={() => handleBlur(0)}
+              className="w-full bg-transparent border-b border-white p-2 outline-none"
+              placeholder="Name"
+            />
+            <input
+              type="email"
+              ref={addFocusRef}
+              onFocus={() => handleFocus(1)}
+              onBlur={() => handleBlur(1)}
+              className="w-full bg-transparent border-b border-white p-2 outline-none"
+              placeholder="Email"
+            />
+            <textarea
+              ref={addFocusRef}
+              onFocus={() => handleFocus(2)}
+              onBlur={() => handleBlur(2)}
+              className="w-full bg-transparent border-b border-white p-2 outline-none"
+              placeholder="Message"
+              rows="4"
+            />
+            <span ref={addToRefs} className="text-sm text-gray-400">
+              No spam, just genuine vibes.
+            </span>
+            <GlitchButton onClick={handleClick} />
+          </form>
+
+          <div ref={socialLinksRef} className="mt-6 flex gap-4 text-2xl">
+            <a href="mailto:shrivastav.atharv21@gmail.com">
+              <i className="ri-mail-line" />
+            </a>
+            <a
+              href="https://linkedin.com/in/attharv-shrivastav"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="ri-linkedin-box-line" />
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Hero;

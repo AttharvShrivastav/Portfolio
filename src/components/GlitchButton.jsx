@@ -30,15 +30,15 @@ const GlitchButton = ({ onClick, className = "" }) => {
   return (
     <button
       onClick={onClick}
-      className={`relative px-6 py-3 rounded-2xl bg-[#FF702D] font-SpaceGrotesk font-normal text-white overflow-hidden ${className}`}
+      className={`relative px-6 py-3 rounded-2xl hover:bg-accent-orange transition-colors bg-[#FF702D] font-SpaceGrotesk font-normal text-white overflow-hidden ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Main Text */}
-      <span className="relative z-10">Send the Signal</span>
+      <span className="relative text-2xl z-10">Send the Signal</span>
       <span
         ref={glitchRefs[0]}
-        className="absolute left-1/2 top-1/2 z-0 pointer-events-none"
+        className="absolute left-1/2 top-1/2 z-0 text-2xl pointer-events-none"
         style={{
           transform: "translate(-50%, -50%)",
           color: "#39ff14",
@@ -50,7 +50,7 @@ const GlitchButton = ({ onClick, className = "" }) => {
       </span>
       <span
         ref={glitchRefs[1]}
-        className="absolute left-1/2 top-1/2 z-0 pointer-events-none"
+        className="absolute left-1/2 top-1/2 z-0 text-2xl pointer-events-none"
         style={{
           transform: "translate(-50%, -50%)",
           color: "#00eaff",
@@ -62,7 +62,7 @@ const GlitchButton = ({ onClick, className = "" }) => {
       </span>
       <span
         ref={glitchRefs[2]}
-        className="absolute left-1/2 top-1/2 z-0 pointer-events-none"
+        className="absolute left-1/2 top-1/2 z-0  text-2xl pointer-events-none"
         style={{
           transform: "translate(-50%, -50%)",
           color: "#ff00c8",
