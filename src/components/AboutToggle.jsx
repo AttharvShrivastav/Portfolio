@@ -41,6 +41,11 @@ export default function AboutToggle() {
     const typingInterval = useRef();
     const cursorTimer = useRef();
 
+    const handleResumeClick = (e) =>{
+        e.preventDefault();
+        window.open('https://drive.google.com/file/d/1HRCUXi8saEhd1V8Zb6k84bBNEOASWokr/view?usp=share_link', '_blank');
+    }
+
     // Cursor blink
     useEffect(() => {
         cursorTimer.current = setInterval(() => {
@@ -226,34 +231,18 @@ export default function AboutToggle() {
                 style={{ display: showCode ? "none" : "", opacity: showCode ? 0 : 1 }}
                 className="flex flex-col space-y-8 h-full"
             >
-                <div className="w-full h-full p-4">
-                    <h3 className="text-3xl font-SpaceGrotesk ">The Engineer:</h3>
-                    <p>
-                        Rooted in computer science, I've spent years decoding the digital world—writing logic, building systems, and obsessing over clean code. Web development, 3D modeling, and game mechanics? Been there, built that.
-                    </p>
-                </div>
-                <div className="w-full p-4 h-full">
-                    <h3 className="text-3xl font-SpaceGrotesk ">The Creator:</h3>
-                    <p>
-                        But creativity is my catalyst. Whether I'm sculpting low-poly worlds or shaping immersive web experiences, I bring ideas to life with detail, delight, and a dash of daring.
-                    </p>
-                </div>
-                <div className="w-full p-4 h-full">
-                    <h3 className="text-3xl font-SpaceGrotesk ">The Balance:</h3>
-                    <p>
-                        I live at the intersection of art and algorithms—where precision meets play. And that's where I do my best work: turning technical know-how into creative magic.
-                    </p>
-                </div>
+               <div className="w-full h-full p-4"> <h3 className="text-3xl font-SpaceGrotesk">The Engineer:</h3> <p> I speak fluent code—C++, Java, Python, JavaScript, and a few more dialects for good measure. Whether I’m building authentication systems that shave seconds off your login or deploying 3D models that pop right off the screen, I’m all about making tech smoother, faster, and a little more magical. From face recognition at HAL to e-commerce at Furni, I’ve got a knack for turning complex problems into clean, elegant solutions. </p> </div> <div className="w-full p-4 h-full"> <h3 className="text-3xl font-SpaceGrotesk">The Creator:</h3> <p> Creativity isn’t just a buzzword—it’s my favorite tool. I sculpt low-poly worlds in Blender, craft interactive web experiences with React and Three.js, and design games that turn pixels into play. For me, every project is a playground, and I’m here to build, break, and reimagine the rules. </p> </div> <div className="w-full p-4 h-full"> <h3 className="text-3xl font-SpaceGrotesk">The Balance:</h3> <p> I live at the crossroads of logic and imagination, where algorithms meet artistry. Whether I’m debugging code or designing a 3D landscape, I believe the best work happens when precision and playfulness collide. Let’s turn tech into something a little more human—one project at a time. </p> </div>
                 <div className="w-full mt-auto px-4 py-6">
   <div className="border-t border-gray-400 pt-4 flex justify-between items-center">
-    <h3 className="text-xl sm:text-2xl font-Poppins">Let’s talk work?</h3>
+    <h3 className="text-xl sm:text-2xl font-Poppins">Let's talk work?</h3>
     <button
       ref={downloadRef}
+      onClick={handleResumeClick}
       onMouseEnter={() => setDownloadHover(true)}
       onMouseLeave={() => setDownloadHover(false)}
       className="text-xl sm:text-2xl font-Poppins cursor-pointer transition-transform duration-300"
     >
-      Download Resume
+      Equip My Resume
     </button>
   </div>
 </div>

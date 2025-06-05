@@ -72,7 +72,7 @@ function Overlay() {
                 {counterValue}
             </h1>
 
-            <div ref={blackbarRef} className="overlay fixed w-[100vw] h-[100vh] z-2 flex">
+            <div ref={blackbarRef} className="overlay fixed w-[100vw] h-[100vh] z-999 flex">
                 {[...Array(10)].map((_, i) => (
                     <div
                         key={i}
