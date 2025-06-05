@@ -11,7 +11,7 @@ function Projects() {
   return (
     <div
       id="projects"
-      className="min-h-screen w-full z-0 py-[20vh]"
+      className="min-h-screen w-full px-6 z-0 py-[20vh]"
       style={{ backgroundColor: "#c8c8c8" }}
     >
       <DecryptedText

@@ -121,7 +121,7 @@ function About({ h1TargetRef }) {
       {/* About panel — repositioned for responsiveness */}
       <div
         ref={aboutRef}
-        className="absolute flex flex-col opacity-0 bottom-8 sm:bottom-16 right-4 sm:right-20 w-[90vw] sm:w-[70vw] md:bottom-6 md:w-[70vw] min-h-[50vh] sm:min-h-[60vh] p-4 sm:p-6 md:p-10"
+        className="bg-amber-600 absolute flex opacity-0 bottom-8 sm:bottom-16 right-2 sm:right-20 w-[90vw] sm:w-[70vw] md:bottom-6 md:w-[70vw] min-h-[50vh] sm:min-h-[60vh] p-4 sm:p-6 md:p-10"
       >
         <AboutToggle />
       </div>
