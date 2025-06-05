@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "remixicon/fonts/remixicon.css";
 import GetInTouchButton from "./GetInTouchButton";
 import GlitchButton from "./GlitchButton";
+import image1 from "../assets/images/ImagePortfolio"
+import image2 from "../assets/images/Capslock_static"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -357,7 +359,7 @@ function Hero({ h1TargetRef }) {
           className="absolute top-1/2 right-0 translate-y-1/2 h-[100px] sm:h-[150px] w-[80px] sm:w-[100px] overflow-hidden"
         >
           <img
-            src="../src/assets/images/Capslock_static.png"
+            src={image2}
             alt="Img1"
             className="h-full w-full object-cover rounded-2xl"
           />
@@ -367,7 +369,7 @@ function Hero({ h1TargetRef }) {
           className="absolute top-0 left-0 translate-y-1/3 h-[150px] sm:h-[250px] w-[120px] sm:w-[170px] overflow-hidden"
         >
           <img
-            src="../src/assets/images/ImagePortfolio.png"
+            src={image1}
             alt="Img2"
             className="h-full w-full object-cover rounded-2xl"
           />
