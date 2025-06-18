@@ -346,7 +346,7 @@ function Hero({ h1TargetRef }) {
       <div className="flex flex-col justify-center items-center h-[90vh] w-full relative px-4 md:px-12">
         <h1
           ref={h1Ref}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl z-1 font-semibold font-['Poppins'] text-[#1c1c1c] tracking-tighter text-center cursor-none"
+          className="text-5xl sm:text-2xl md:text-3xl lg:text-9xl z-1 font-semibold font-['Poppins'] text-[#1c1c1c] tracking-tighter text-center cursor-none"
           onMouseEnter={() => !disableHover && setIsHovered(true)}
           onMouseLeave={() => !disableHover && setIsHovered(false)}
         >

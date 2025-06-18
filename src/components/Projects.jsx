@@ -1,60 +1,125 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import DecryptedText from "./Animation/DecryptedText";
+import ProjectDetail from "./ProjectDetail";
+// import significoImgg from "./assets/images/signi"
 
 import { useMotionValue, motion, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+
+// Import your project images
 import project1Img from "../assets/images/1.png";
 import project2Img from "../assets/images/2.png";
 import project3Img from "../assets/images/3.png";
+import project4Img from "../assets/images/4.png";
+// TODO: Add an image for your Significo recreation!
+// import significoImg from "../assets/images/significo-recreation-preview.png"; // Uncomment and replace with actual path
+
+const projectsData = [
+  // Existing projects
+  {
+    heading: "Html to Markdown converter",
+    subheading: "Built with React",
+    description: "A simple and efficient web-based tool created with React that allows users to convert HTML code into Markdown syntax instantly. It provides a side-by-side live preview for easy comparison and editing.",
+    imgSrc: project1Img,
+    href: "https://markdown-html-converter-ten.vercel.app",
+  },
+  {
+    heading: "Martian Mike",
+    subheading: "2D Platformer Game Made with Godot",
+    description: "Martian Mike is an engaging 2D platformer game developed using the Godot Engine. Players navigate Mike through challenging Martian Martian landscapes, overcoming obstacles and enemies in a retro-inspired adventure.",
+    imgSrc: project2Img,
+    href: "https://drive.google.com/file/d/1i67iGJ4N8Rymdz18iy1WwWiL8KN0vEkk/view?usp=sharing",
+  },
+  {
+    heading: "Furni- E-commerce website",
+    subheading: "ReactJS, ThreeJS, MySQL, NodeJS",
+    description: "Furni is a full-stack e-commerce platform that revolutionizes online furniture shopping. It integrates interactive 3D models built with Three.js, allowing users to view products from every angle. The backend is powered by NodeJS and MySQL.",
+    imgSrc: project3Img,
+    href: "#",
+  },
+  {
+    heading: "Significo Website Recreation",
+    subheading: "Front-End Development (HTML, CSS, JS, TailwindCSS)",
+    description: "A meticulously crafted front-end recreation of the Significo website, demonstrating proficiency in responsive design, complex layouts using modern CSS (Flexbox, Grid), custom animations, and interactive elements. Built to replicate pixel-perfect fidelity.",
+    imgSrc: project4Img, 
+    href: "https://significo-recreation.onrender.com", 
+  },
+  {
+    heading: "Bento Box Design",
+    subheading: "Responsive UI/UX (HTML, CSS, GSAP, Locomotive Scroll)",
+    description: "A modern and visually striking web design featuring a dynamic Bento Box layout. This project showcases advanced UI/UX principles, seamless responsiveness, and smooth scroll animations implemented with GSAP and Locomotive Scroll, providing an engaging user experience.",
+    imgSrc: "/assets/images/bento-box-preview.png", 
+    href: "https://bentobuildbox.netlify.app", 
+  },
+];
 
 function Projects() {
-  return (
-    <div
-      id="projects"
-      className="min-h-screen w-full px-6 z-0 py-[20vh]"
-      style={{ backgroundColor: "#c8c8c8" }}
-    >
-      <DecryptedText
-        text="PROJECTS"
-        speed={100}
-        maxIterations={20}
-        characters="ABCD1234!?"
-        className="revealed"
-        parentClassName="all-letters text-7xl p-5"
-        encryptedClassName="encrypted"
-      />
+  const [currentIndex, setCurrentIndex] = useState(null);
 
-      <div className="mx-auto w-[90%] p-4 md:p-8">
-        <HoverLink
-          heading="Html to Markdown converter"
-          subheading="Built with React"
-          imgSrc={project1Img}
-          href="https://markdown-html-converter-ten.vercel.app"
+  const handleNavigateNext = () => {
+    if (currentIndex < projectsData.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handleNavigatePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const handleProjectClick = (index) => {
+    setCurrentIndex(index);
+  };
+
+  const handleCloseDetail = () => {
+    setCurrentIndex(null);
+  };
+
+  const isDetailViewOpen = currentIndex !== null;
+
+  return (
+    <>
+      <div
+        id="projects"
+        className="min-h-screen w-full px-6 z-0 py-[20vh]"
+        style={{ backgroundColor: "#c8c8c8" }}
+      >
+        <DecryptedText
+          text="PROJECTS"
+          speed={100}
+          maxIterations={20}
+          characters="ABCD1234!?"
+          className="revealed"
+          parentClassName="all-letters text-7xl p-5"
+          encryptedClassName="encrypted"
         />
-        <HoverLink
-          heading="Martian Mike"
-          subheading="2D Platformer Game Made with Godot 2D"
-          imgSrc={project2Img}
-          href="https://drive.google.com/file/d/1i67iGJ4N8Rymdz18iy1WwWiL8KN0vEkk/view?usp=sharing"
-        />
-        <HoverLink
-          heading="Furni- E-commerce website"
-          subheading="E-commerce website with 3D models of objects made with ReactJS, ThreeJS, MySQL and NodeJS"
-          imgSrc={project3Img}
-          href="#"
-        />
-        {/* <HoverLink
-          heading="Quiz App"
-          subheading="Quiz App made in Flask"
-          // imgSrc={project4Img}
-          href="https://github.com/AttharvShrivastav/Quizite"
-        /> */}
+
+        <div className="mx-auto w-[90%] p-4 md:p-8">
+          {projectsData.map((project, index) => (
+            <HoverLink
+              key={index}
+              {...project}
+              onProjectClick={() => handleProjectClick(index)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {isDetailViewOpen && (
+        <ProjectDetail
+          project={projectsData[currentIndex]}
+          onClose={handleCloseDetail}
+          onNavigateNext={handleNavigateNext}
+          onNavigatePrev={handleNavigatePrev}
+          currentIndex={currentIndex}
+          totalProjects={projectsData.length}
+        />
+      )}
+    </>
   );
 }
 
-const HoverLink = ({ heading, imgSrc, subheading, href }) => {
+const HoverLink = ({ heading, imgSrc, subheading, onProjectClick }) => {
   const ref = useRef(null);
 
   const x = useMotionValue(0);
@@ -68,24 +133,22 @@ const HoverLink = ({ heading, imgSrc, subheading, href }) => {
 
   const handleMouseMove = (e) => {
     const rect = ref.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / rect.width - 0.5;
-    const yPct = mouseY / rect.height - 0.5;
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
 
     x.set(xPct);
     y.set(yPct);
   };
 
   return (
-    <motion.a
-  href={href}
-  ref={ref}
-  onMouseMove={handleMouseMove}
-  initial="initial"
-  whileHover="whileHover"
-  className="group relative my-2 flex items-center justify-between border-b-2 border-neutral-700 py-4 transition-colors duration-500 hover:border-black md:py-8 bg-[#DCDCDC] rounded-xl px-6 shadow-md"
->
+    <motion.div
+      ref={ref}
+      onClick={onProjectClick}
+      onMouseMove={handleMouseMove}
+      initial="initial"
+      whileHover="whileHover"
+      className="group relative my-2 flex cursor-pointer items-center justify-between border-b-2 border-neutral-700 py-4 transition-colors duration-500 hover:border-black md:py-8 bg-[#DCDCDC] rounded-xl px-6 shadow-md"
+    >
       <div>
         <motion.span
           variants={{
@@ -150,10 +213,8 @@ const HoverLink = ({ heading, imgSrc, subheading, href }) => {
         className="relative z-10 p-4"
       >
         <i className="ri-arrow-right-line"></i>
-
       </motion.div>
-    </motion.a>
+    </motion.div>
   );
 };
-
 export default Projects;
