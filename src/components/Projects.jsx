@@ -10,6 +10,7 @@ import project1Img from "../assets/images/1.png";
 import project2Img from "../assets/images/2.png";
 import project3Img from "../assets/images/3.png";
 import project4Img from "../assets/images/4.png";
+import project5Img from "..//assets/images/5.png"
 // TODO: Add an image for your Significo recreation!
 // import significoImg from "../assets/images/significo-recreation-preview.png"; // Uncomment and replace with actual path
 
@@ -47,7 +48,7 @@ const projectsData = [
     heading: "Bento Box Design",
     subheading: "Responsive UI/UX (HTML, CSS, GSAP, Locomotive Scroll)",
     description: "A modern and visually striking web design featuring a dynamic Bento Box layout. This project showcases advanced UI/UX principles, seamless responsiveness, and smooth scroll animations implemented with GSAP and Locomotive Scroll, providing an engaging user experience.",
-    imgSrc: "/assets/images/bento-box-preview.png", 
+    imgSrc: project5Img, 
     href: "https://bentobuildbox.netlify.app", 
   },
 ];
