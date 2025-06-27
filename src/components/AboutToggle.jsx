@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TypewriterComponent from "typewriter-effect";
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // Make sure ScrollTrigger is still registered if needed internally
 import { useGSAP } from "@gsap/react";
 
-
+// Ensure GSAP plugins are registered if used internally
 gsap.registerPlugin(ScrollTrigger);
 
-
+// =====================================
+// Helper Functions (for syntax highlighting)
+// =====================================
 const codeLines = [
     "function about() {",
     "  console.log(`Rooted in computer science, I've spent years decoding the digital world—writing logic, building systems, and obsessing over clean code. Web development, 3D modeling, and game mechanics? Been there, built that.`);",
@@ -30,33 +31,80 @@ function syntaxHighlight(line) {
         .replace(/;/g, '<span class="text-gray-400">;</span>');
 }
 
+// =====================================
+// AboutToggle Component
+// =====================================
 const AboutToggle = () => {
-    const downloadRef = useRef();
-    const [downloadHover, setDownloadHover] = useState(false);
-    const [showCode, setShowCode] =useState(true);
-    const [typedLines, setTypedLines] = useState(codeLines.map(() => ""));
-    const [typing, setTyping] = useState(true);
+    // State
+    const [isResumeBtnHovered, setIsResumeBtnHovered] = useState(false); // For "Equip My Resume" button
+    const [isCodeView, setIsCodeView] = useState(true); // Toggles between code and text view
+    const [typedCodeLines, setTypedCodeLines] = useState(codeLines.map(() => "")); // For typing effect
+    const [isTyping, setIsTyping] = useState(true); // Controls typing animation state
 
-    const codeRef = useRef();
-    const aboutRef = useRef();
+    // Refs
+    const resumeDownloadBtnRef = useRef(null); // "Equip My Resume" button
+    const codeViewContentRef = useRef(null); // Div for the code view
+    const textViewContentRef = useRef(null); // Div for the text view
     
+    // Event Handlers
     const handleResumeClick = (e) => {
         e.preventDefault();
         window.open('https://drive.google.com/file/d/1HRCUXi8saEhd1V8Zb6k84bBNEOASWokr/view?usp=share_link', '_blank');
     };
     
-    useGSAP(() => {
-        if (!showCode) return;
+    const handleAboutViewTransition = (targetView) => {
+        if (targetView === "toText" && isCodeView) {
+            gsap.to(codeViewContentRef.current, {
+                opacity: 0, y: 20, pointerEvents: "none", duration: 0.4,
+                onComplete: () => {
+                    setIsCodeView(false);
+                    gsap.fromTo(textViewContentRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.5 });
+                }
+            });
+        } else if (targetView === "toCode" && !isCodeView) {
+            gsap.to(textViewContentRef.current, {
+                opacity: 0, y: 20, pointerEvents: "none", duration: 0.4,
+                onComplete: () => {
+                    setIsCodeView(true);
+                    gsap.fromTo(codeViewContentRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.5 });
+                }
+            });
+        }
+    };
+    
+    const toggleAboutView = () => handleAboutViewTransition(isCodeView ? "toText" : "toCode");
 
-        setTyping(true);
+    // GSAP Animations
+    
+    // "Equip My Resume" button hover animation
+    useGSAP(() => {
+        if (!resumeDownloadBtnRef.current) return;
+        gsap.to(resumeDownloadBtnRef.current, {
+            color: isResumeBtnHovered ? "#FF5F00" : "#000",
+            scale: isResumeBtnHovered ? 1.1 : 1,
+            duration: 0.3
+        });
+    }, { dependencies: [isResumeBtnHovered] });
+
+    // Typing animation for code view
+    useEffect(() => {
+        if (!isCodeView) {
+            setIsTyping(false);
+            setTypedCodeLines(codeLines.map(line => line)); // Ensure full lines are present if not typing
+            return;
+        }
+        
+        setIsTyping(true);
+        setTypedCodeLines(codeLines.map(() => "")); // Reset for fresh animation
+
         const tl = gsap.timeline({
             onComplete: () => {
-                setTyping(false);
-                setTimeout(() => handleTransition("toText"), 1500);
+                setIsTyping(false);
+                // The original code had an auto-transition to text view here.
+                // If you want that, uncomment this line:
+                // setTimeout(() => handleAboutViewTransition("toText"), 1500); 
             }
         });
-
-        setTypedLines(codeLines.map(() => ""));
 
         codeLines.forEach((line, lineIndex) => {
             const target = { value: 0 };
@@ -65,7 +113,7 @@ const AboutToggle = () => {
                 duration: line.length * 0.02,
                 ease: "none",
                 onUpdate: () => {
-                    setTypedLines(prev => {
+                    setTypedCodeLines(prev => {
                         const updated = [...prev];
                         updated[lineIndex] = line.substring(0, Math.floor(target.value));
                         return updated;
@@ -74,56 +122,25 @@ const AboutToggle = () => {
             });
         });
 
-    }, { dependencies: [showCode] });
+        return () => tl.kill(); // Cleanup timeline
+    }, [isCodeView]);
 
-    const handleTransition = (target) => {
-        if (target === "toText" && showCode) {
-            gsap.to(codeRef.current, {
-                opacity: 0, y: 20, pointerEvents: "none", duration: 0.4,
-                onComplete: () => {
-                    setShowCode(false);
-                    gsap.fromTo(aboutRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.5 });
-                }
-            });
-        } else if (target === "toCode" && !showCode) {
-            gsap.to(aboutRef.current, {
-                opacity: 0, y: 20, pointerEvents: "none", duration: 0.4,
-                onComplete: () => {
-                    setShowCode(true);
-                    gsap.fromTo(codeRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.5 });
-                }
-            });
-        }
-    };
-    
-    const toggleView = () => handleTransition(showCode ? "toText" : "toCode");
-
-    useGSAP(() => {
-        gsap.to(downloadRef.current, {
-            color: downloadHover ? "#FF5F00" : "#000",
-            scale: downloadHover ? 1.1 : 1,
-            duration: 0.3
-        });
-    }, { dependencies: [downloadHover] });
 
     return (
-        // REMOVED fixed height to allow container to resize with content
-        <div className="relative w-full max-w-3xl mx-auto p-6 rounded-2xl flex flex-col">
+        <div className="relative w-full max-w-3xl p-6 rounded-2xl flex flex-col bg-[#c8c8c8]">
             <div className="flex justify-end mb-4">
                 <div className="flex items-center gap-4">
-                    <span className="text-sm text-gray-700 font-medium">{showCode ? "Code View" : "Text View"}</span>
+                    <span className="text-sm text-gray-700 font-medium">{isCodeView ? "Code View" : "Text View"}</span>
                     <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" checked={!showCode} onChange={toggleView} />
+                        <input type="checkbox" className="sr-only peer" checked={!isCodeView} onChange={toggleAboutView} />
                         <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-[#FF5F00]"></div>
                         <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transform peer-checked:translate-x-full transition-transform duration-300"></div>
                     </label>
                 </div>
             </div>
             
-            {/* Set a minimum height for the content area to prevent layout shifts */}
-            <div className="relative flex-grow overflow-hidden min-h-[420px]">
-                <div ref={codeRef} style={{ display: showCode ? "" : "none", opacity: 1 }} className="absolute inset-0 rounded-lg bg-[#18181B] border border-gray-700 h-full">
-                    {/* Code Editor view content... */}
+            <div className="relative flex-grow overflow-hidden min-h-[600px]">
+                <div ref={codeViewContentRef} style={{ display: isCodeView ? "" : "none", opacity: 1 }} className="absolute inset-0 rounded-lg bg-[#18181B] border border-gray-700 h-full">
                     <div className="bg-gray-900 px-4 py-2 flex items-center border-b border-gray-700">
                         <span className="w-3 h-3 rounded-full bg-red-400 mr-2"></span>
                         <span className="w-3 h-3 rounded-full bg-yellow-400 mr-2"></span>
@@ -135,13 +152,13 @@ const AboutToggle = () => {
                             {Array.from({ length: 15 }, (_, i) => <div key={i} className="leading-relaxed">{i + 1}</div>)}
                         </div>
                         <div className="overflow-auto py-4 pr-6 pl-2 w-full">
-                            {typedLines.map((line, i) => (
-                                <div key={i} className="whitespace-pre-wrap break-words text-sm text-white font-mono leading-relaxed" dangerouslySetInnerHTML={{ __html: syntaxHighlight(line) + (typing && i === typedLines.findIndex((l, j) => l !== codeLines[j]) ? `<span class="inline-block bg-pink-500 w-1 h-5 align-middle"></span>` : "") }} />
+                            {typedCodeLines.map((line, i) => (
+                                <div key={i} className="whitespace-pre-wrap break-words text-sm text-white font-mono leading-relaxed" dangerouslySetInnerHTML={{ __html: syntaxHighlight(line) + (isTyping && i === typedCodeLines.findIndex((l, j) => l !== codeLines[j]) ? `<span class="inline-block bg-pink-500 w-1 h-5 align-middle"></span>` : "") }} />
                             ))}
                         </div>
                     </div>
                 </div>
-                <div ref={aboutRef} style={{ display: showCode ? "none" : "", opacity: 0 }} className="absolute inset-0 flex flex-col justify-between h-full p-4">
+                <div ref={textViewContentRef} style={{ display: isCodeView ? "none" : "", opacity: 0 }} className="absolute inset-0 flex flex-col justify-between h-full p-4">
                      <div className="space-y-4">
                         <div>
                             <h3 className="text-xl font-SpaceGrotesk mb-1 font-medium text-neutral-800">The Engineer:</h3>
@@ -159,7 +176,7 @@ const AboutToggle = () => {
                     <div className="w-full mt-auto">
                         <div className="border-t border-gray-400 pt-4 flex justify-between items-center">
                             <h3 className="text-lg sm:text-xl font-Poppins text-neutral-800">Let's talk work?</h3>
-                            <button ref={downloadRef} onClick={handleResumeClick} onMouseEnter={() => setDownloadHover(true)} onMouseLeave={() => setDownloadHover(false)} className="text-lg sm:text-xl font-Poppins cursor-pointer transition-transform duration-300 font-semibold">
+                            <button ref={resumeDownloadBtnRef} onClick={handleResumeClick} onMouseEnter={() => setIsResumeBtnHovered(true)} onMouseLeave={() => setIsResumeBtnHovered(false)} className="text-lg sm:text-xl font-Poppins cursor-pointer transition-transform duration-300 font-semibold">
                                 Equip My Resume
                             </button>
                         </div>
@@ -169,6 +186,5 @@ const AboutToggle = () => {
         </div>
     );
 };
-
 
 export default AboutToggle;
