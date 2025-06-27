@@ -315,7 +315,7 @@ const Footer = () => {
           <div className="flex flex-col gap-2 footer-contact-item">
             <span className="text-neutral-600 font-Poppins">Contact Me</span>
             <a
-              href="mailto:youremail@example.com"
+              href="mailto:shrivastav.atharv21@gmail.com"
               className="font-Poppins text-xl md:text-2xl text-neutral-800 hover:text-black transition-colors"
             >
               shrivastav.atharv21@gmail.com
