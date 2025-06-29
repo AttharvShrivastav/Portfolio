@@ -129,7 +129,7 @@ function App() {
   }, [keySequence, navigate]);
 
   return (
-    <div className="App overflow-x-hidden">
+    <div className="App cursor-none overflow-x-hidden">
       <Cursor />
       <Overlay />
       <Routes>

@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger"; // Make sure ScrollTrigger is still registered if needed internally
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-// Ensure GSAP plugins are registered if used internally
+
 gsap.registerPlugin(ScrollTrigger);
 
-// =====================================
-// Helper Functions (for syntax highlighting)
-// =====================================
+
 const codeLines = [
     "function about() {",
     "  console.log(`Rooted in computer science, I've spent years decoding the digital world—writing logic, building systems, and obsessing over clean code. Web development, 3D modeling, and game mechanics? Been there, built that.`);",
@@ -84,6 +82,12 @@ const AboutToggle = () => {
             scale: isResumeBtnHovered ? 1.1 : 1,
             duration: 0.3
         });
+        // --- ADDED CURSOR EVENT DISPATCH HERE ---
+        if (isResumeBtnHovered) {
+            window.dispatchEvent(new Event("Download-button-hover-on"));
+        } else {
+            window.dispatchEvent(new Event("Download-button-hover-off"));
+        }
     }, { dependencies: [isResumeBtnHovered] });
 
     // Typing animation for code view
@@ -176,7 +180,7 @@ const AboutToggle = () => {
                     <div className="w-full mt-auto">
                         <div className="border-t border-gray-400 pt-4 flex justify-between items-center">
                             <h3 className="text-lg sm:text-xl font-Poppins text-neutral-800">Let's talk work?</h3>
-                            <button ref={resumeDownloadBtnRef} onClick={handleResumeClick} onMouseEnter={() => setIsResumeBtnHovered(true)} onMouseLeave={() => setIsResumeBtnHovered(false)} className="text-lg sm:text-xl font-Poppins cursor-pointer transition-transform duration-300 font-semibold">
+                            <button ref={resumeDownloadBtnRef} onClick={handleResumeClick} onMouseEnter={() => setIsResumeBtnHovered(true)} onMouseLeave={() => setIsResumeBtnHovered(false)} className="text-lg sm:text-xl font-Poppins cursor-pointer transition-transform font-semibold">
                                 Equip My Resume
                             </button>
                         </div>

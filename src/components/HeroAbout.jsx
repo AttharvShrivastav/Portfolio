@@ -418,7 +418,7 @@ function HeroAbout() {
               </span>
               <button
                 onClick={handleContactFormSubmit}
-                className="bg-purple-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-800 transition-colors"
+                className="bg-accent-orange text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#ff5e00da] transition-colors"
               >
                 Send Signal
               </button>
