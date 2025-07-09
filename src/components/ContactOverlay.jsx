@@ -40,7 +40,7 @@ const ContactOverlay = forwardRef(({ onClose }, ref) => {
                     </span>
 
                     {/* You can keep your glitch button here or pass props */}
-                    {/* <GlitchButton onClick={handleClick} /> */}
+                    <GlitchButton onClick={handleClick} />
                </form>
                <div className="mt-6 flex gap-4 text-2xl">
                     <a href="mailto:shrivastav.atharv21@gmail.com" title="Ping me here">
